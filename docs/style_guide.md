@@ -14,12 +14,49 @@ Here you can find the standards we follow for writing, formatting, and organizin
 
 Writing guidelines:
 - [Documentation Style Guide](#documentation-style-guide)
-  - [Markdown Syntax](#markdown-syntax)
   - [Voice and Tone](#voice-and-tone)
+  - [Fonts and Colors](#fonts-and-colors)
+  - [Markdown Syntax](#markdown-syntax)
   - [Headings](#headings)
   - [Spelling and Punctuation](#spelling-and-punctuation)
   - [References](#references)
   - [Tips and Tricks](#tips-and-tricks)
+
+
+## Voice and Tone
+
+* Write in plain English—a universal language that makes information clear and better to understand:
+  * Use simple tenses and active voice.
+  * Understandable language, fewer gerunds.
+  * Short, sharp sentence. Try to use 15-20 words max.
+  * [Split information in paragraphs](https://github.com/tiiuae/ghaf/tree/main/docs#managing-content).
+  * Do not use parenthesis for additional information, make a separate sentence instead.
+  * Use numbered lists for actions that happen in sequence.
+  * Do not contract the words: use _cannot_ instead of _can’t_.
+  * Do not use Latin words. For example:
+    * perform operations, **etc.** ⇒ perform operations, and **so on**
+    * **e.g.** a Microsoft SQL Server ⇒ **for example**, a Microsoft SQL Server
+    * **via** the system ⇒ **through** the system
+* Use “we” for us and our work, use “you” for readers. Do not use “please” to provide instructions, just ask what should be done.
+* Avoid buzzwords, slang, and jargon.
+* Readers often scan rather than read, put the important facts first.
+* Do not assume that readers know everything you currently know. Provide clear instructions.
+* Do not reference future development or features that do not yet exist.
+
+
+## Fonts and Colors
+
+* Font
+
+    The [Roboto font](https://fonts.google.com/specimen/Roboto) family is used in Ghaf digital platforms. Roboto is available via an open-source license.
+
+* Ghaf colors
+
+    * Primary color is Light green (#5AC379).
+    * Secondary colors:
+
+        * Dark green (#3D8252), Orange (#F15025), Yellow (#FABC3C)
+        * Light grey (#3A3A3A), Mid grey (#232323), Dark grey (#121212)
 
 
 ## Markdown Syntax
@@ -84,21 +121,6 @@ To make our Markdown files maintainable over time and across teams, follow the r
 
     For GitHub .md files (not for GitHub Pages), emojis are welcome :octocat:. [Supported GitHub emojis](https://github-emoji-picker.vercel.app/).
 
-## Voice and Tone
-
-* Write in plain English—a universal language that makes information clear and better to understand:
-  * Use simple tenses and active voice.
-  * Understandable language, fewer gerunds.
-  * Short, sharp sentence. Try to use 15-20 words max.
-  * [Split information in paragraphs](https://github.com/tiiuae/ghaf/tree/main/docs#managing-content).
-  * Do not use parenthesis for additional information, make a separate sentence instead.
-  * Use numbered lists for actions that happen in sequence.
-  * Do not contract the words: use _cannot_ instead of _can’t_.
-* Use “we” for us and our work, use “you” for readers. Do not use “please” to provide instructions, just ask what should be done.
-* Avoid buzzwords, slang, and jargon.
-* Readers often scan rather than read, put the important facts first.
-* Do not assume that readers know everything you currently know. Provide clear instructions.
-* Do not reference future development or features that do not yet exist.
 
 
 ## Headings
@@ -106,7 +128,9 @@ To make our Markdown files maintainable over time and across teams, follow the r
 Capitalize words in the heading according to title case.
 
 > Title Case: You Capitalize All Words in the Title Except for the Little Words.
-> 
+
+For a hyphenated compound word, capitalize both parts, unless it is an article, preposition, or coordinating conjunction. For example: Step-by-Step, Ghaf-Based, Follow-Up, Non-Functional.
+
 In Ghaf documentation, we do not use articles in headings as soon as the meaning remains clear (compare, for example: "History of China" and "The History of China"). Headlines should be attention grabbers, not full sentences.
 
 
@@ -175,6 +199,7 @@ In Ghaf documentation, we do not use articles in headings as soon as the meaning
 ## References
 
 For references (additional information on sections, terms and any other issues in a document that require supplementary explanation) use the following combination:
+
 * *for more information on X, see B* 
 * *to learn how to X, see B*
 
@@ -196,4 +221,4 @@ Congratulations! You found the Room of Requirement that adjusts itself to its se
 | cross compilation vs. cross-compilation | In Ghaf documentation, we use **cross-compilation** as a noun or an adjective to describe a compilation that is performed between different devices. Use **cross-compile** as a verb meaning to build on one platform an executable binary that will run on another platform. |
 
 
-To do: function vs. feature, feature vs. functionality, toward vs. towards.
+Happy writing!

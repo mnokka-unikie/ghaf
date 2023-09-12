@@ -10,24 +10,54 @@
 }: let
   name = "nvidia-jetson-orin";
   system = "aarch64-linux";
+
   formatModule = nixos-generators.nixosModules.raw-efi;
-  nvidia-jetson-orin = variant: extraModules: let
+  nvidia-jetson-orin = som: variant: extraModules: let
+    netvmExtraModules = [
+      {
+        # The Nvidia Orin hardware dependent configuration is in
+        # modules/hardware/nvidia-jetson-orin/jetson-orin.nx
+        # Please refer to that section for hardware dependent netvm configuration.
+
+        # To enable or disable wireless
+        networking.wireless = {
+          # Wireless Configuration
+          # Orin AGX has WiFi enabled where Orin Nx does not
+          enable =
+            if som == "agx"
+            then nixpkgs.lib.mkForce true
+            else nixpkgs.lib.mkForce false;
+        };
+
+        # For WLAN firmwares
+        hardware.enableRedistributableFirmware =
+          if som == "agx"
+          then nixpkgs.lib.mkForce true
+          else nixpkgs.lib.mkForce false;
+        # Note: When 21.11 arrives replace the below statement with
+        # wirelessRegulatoryDatabase = true;
+      }
+    ];
     hostConfiguration = lib.nixosSystem {
       inherit system;
       specialArgs = {inherit lib;};
+
       modules =
         [
-          (import ../modules/host {
-            inherit self microvm netvm;
-          })
-
           jetpack-nixos.nixosModules.default
-
           ../modules/hardware/nvidia-jetson-orin
-
+          microvm.nixosModules.host
+          ../modules/host
+          ../modules/virtualization/microvm/microvm-host.nix
+          ../modules/virtualization/microvm/netvm.nix
           {
             ghaf = {
               hardware.nvidia.orin.enable = true;
+              hardware.nvidia.orin.somType = som;
+
+              virtualization.microvm-host.enable = true;
+              host.networking.enable = true;
+
               # Enable all the default UI applications
               profiles = {
                 applications.enable = true;
@@ -46,39 +76,15 @@
         ++ (import ../modules/module-list.nix)
         ++ extraModules;
     };
-    netvm = "netvm-${name}-${variant}";
   in {
-    inherit hostConfiguration netvm;
-    name = "${name}-${variant}";
-    netvmConfiguration =
-      (import ../modules/virtualization/microvm/netvm.nix {
-        inherit lib microvm system;
-      })
-      .extendModules {
-        modules = [
-          {
-            microvm.devices = [
-              {
-                bus = "pci";
-                path = "0001:01:00.0";
-              }
-            ];
-
-            # For WLAN firmwares
-            hardware.enableRedistributableFirmware = true;
-
-            networking.wireless = {
-              enable = true;
-
-              # networks."SSID_OF_NETWORK".psk = "WPA_PASSWORD";
-            };
-          }
-        ];
-      };
+    inherit hostConfiguration;
+    name = "${name}-${som}-${variant}";
     package = hostConfiguration.config.system.build.${hostConfiguration.config.formatAttr};
   };
-  nvidia-jetson-orin-debug = nvidia-jetson-orin "debug" [];
-  nvidia-jetson-orin-release = nvidia-jetson-orin "release" [];
+  nvidia-jetson-orin-agx-debug = nvidia-jetson-orin "agx" "debug" [];
+  nvidia-jetson-orin-agx-release = nvidia-jetson-orin "agx" "release" [];
+  nvidia-jetson-orin-nx-debug = nvidia-jetson-orin "nx" "debug" [];
+  nvidia-jetson-orin-nx-release = nvidia-jetson-orin "nx" "release" [];
   generate-cross-from-x86_64 = tgt:
     tgt
     // rec {
@@ -95,8 +101,10 @@
       package = hostConfiguration.config.system.build.${hostConfiguration.config.formatAttr};
     };
   targets = [
-    nvidia-jetson-orin-debug
-    nvidia-jetson-orin-release
+    nvidia-jetson-orin-agx-debug
+    nvidia-jetson-orin-agx-release
+    nvidia-jetson-orin-nx-debug
+    nvidia-jetson-orin-nx-release
   ];
   crossTargets = map generate-cross-from-x86_64 targets;
   mkFlashScript = import ../lib/mk-flash-script.nix;
@@ -109,8 +117,7 @@
     };
 in {
   nixosConfigurations =
-    builtins.listToAttrs (map (t: lib.nameValuePair t.name t.hostConfiguration) (targets ++ crossTargets))
-    // builtins.listToAttrs (map (t: lib.nameValuePair t.netvm t.netvmConfiguration) targets);
+    builtins.listToAttrs (map (t: lib.nameValuePair t.name t.hostConfiguration) (targets ++ crossTargets));
 
   packages = {
     aarch64-linux =

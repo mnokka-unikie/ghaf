@@ -25,15 +25,16 @@
   */
   mkLaunchers = lib.concatMapStrings mkLauncher;
 
-  gala-app = pkgs.callPackage ../../user-apps/gala {};
-  demoLaunchers = [
-    # Add application launchers
-    # Adding terminal launcher because it is overwritten if other launchers are on the panel
+  defaultLauncher = [
+    # Keep weston-terminal launcher always enabled explicitly since if someone adds
+    # a launcher on the panel, the launcher will replace weston-terminal launcher.
     {
       path = "${pkgs.weston}/bin/weston-terminal";
       icon = "${pkgs.weston}/share/weston/icon_terminal.png";
     }
-
+  ];
+  demoLaunchers = [
+    # Add application launchers
     {
       path = "${pkgs.chromium}/bin/chromium --enable-features=UseOzonePlatform --ozone-platform=wayland";
       icon = "${pkgs.chromium}/share/icons/hicolor/24x24/apps/chromium.png";
@@ -45,8 +46,13 @@
     }
 
     {
-      path = "${gala-app}/bin/gala --enable-features=UseOzonePlatform --ozone-platform=wayland";
-      icon = "${gala-app}/gala/resources/icon-24x24.png";
+      path = "${pkgs.gala-app}/bin/gala --enable-features=UseOzonePlatform --ozone-platform=wayland";
+      icon = "${pkgs.gala-app}/gala/resources/icon-24x24.png";
+    }
+
+    {
+      path = "${pkgs.zathura}/bin/zathura";
+      icon = "${pkgs.zathura}/share/icons/hicolor/32x32/apps/org.pwmt.zathura.png";
     }
   ];
 in {
@@ -71,7 +77,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    ghaf.graphics.weston.launchers = lib.optionals cfg.enableDemoApplications demoLaunchers;
+    ghaf.graphics.weston.launchers = defaultLauncher ++ lib.optionals cfg.enableDemoApplications demoLaunchers;
     environment.systemPackages = with pkgs;
       lib.optionals cfg.enableDemoApplications [
         # Graphical applications
@@ -79,6 +85,7 @@ in {
         chromium
         element-desktop
         gala-app
+        zathura
       ];
     environment.etc."xdg/weston/weston.ini" = {
       text =
