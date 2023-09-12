@@ -22,10 +22,8 @@ stdenv.mkDerivation {
 
   buildPhase = ''
     set -x
-    ${pkgs.openssh}/bin/ssh-keygen -o -a 100 -t ed25519 -f waypipe-ssh -C "" -N ''
+    ${pkgs.openssh}/bin/ssh-keygen -o -a 100 -t ed25519 -f waypipe-ssh -C "" -N ""
   '';
-
-THIS IS FAILURE LINE
 
   installPhase = ''
     set -x
