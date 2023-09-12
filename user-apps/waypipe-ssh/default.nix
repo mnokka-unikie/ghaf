@@ -21,10 +21,12 @@ stdenv.mkDerivation {
   phases = ["buildPhase" "installPhase"];
 
   buildPhase = ''
+    set -x
     ${pkgs.openssh}/bin/ssh-keygen -o -a 100 -t ed25519 -f waypipe-ssh -C "" -N ''
   '';
 
   installPhase = ''
+    set -x
     mkdir -p $out/keys
     install ./waypipe-ssh $out/keys
     install ./waypipe-ssh.pub $out/keys
