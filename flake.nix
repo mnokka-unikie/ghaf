@@ -33,7 +33,7 @@
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     THIS BROKES THE BUILD
-
+    GTOINEN RIVI
     #
     # Flake and repo structuring configurations
     #
