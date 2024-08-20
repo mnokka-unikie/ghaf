@@ -32,6 +32,8 @@
     nixpkgs.url = "github:tiiuae/nixpkgs/nixos-unstable-texinfo"; # "flake:mylocalnixpkgs"; #
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    THIS BROKES THE BUILD
+
     #
     # Flake and repo structuring configurations
     #
