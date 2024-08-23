@@ -31,9 +31,6 @@
     #TODO: clean this up before merging to main
     nixpkgs.url = "github:tiiuae/nixpkgs/nixos-unstable-texinfo"; # "flake:mylocalnixpkgs"; #
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    THIS BROKES THE BUILD
-    GTOINEN RIVI
     #
     # Flake and repo structuring configurations
     #
