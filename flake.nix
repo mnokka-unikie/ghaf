@@ -4,6 +4,7 @@
 # another line
 #more lines
 #this WAS build breaker
+# ok line
 {
   description = "Ghaf Framework: Documentation and implementation for TII SSRC Secure Technologies";
 
