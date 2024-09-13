@@ -5,7 +5,7 @@
 #more lines
 #this WAS build breaker
 # ok line
-this is breaker
+# this is not breaker anymore
 #ok line
 # ok line by another user
 {
